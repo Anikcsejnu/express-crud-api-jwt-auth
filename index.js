@@ -1,21 +1,15 @@
-const fsPromises = require('fs').promises;
-const path = require('path');
+const logEvents = require('./logEvent')
 
-const fileOps = async() => {
-    try{
-        const data = await fsPromises.readFile(path.join(__dirname, 'files', 'starter.txt'), 'utf8');
-        console.log(data);
+const EventEmitter = require('events')
 
-        await fsPromises.writeFile(path.join(__dirname, 'files', 'promiseWrite.txt'), data); 
-        await fsPromises.appendFile(path.join(__dirname, 'files', 'promiseWrite.txt'), '\n\nNice to meet your'); 
-        await fsPromises.rename(path.join(__dirname, 'files', 'promiseWrite.txt'), path.join(__dirname, 'files', 'promiseComplete.txt')); 
-        const newData = await fsPromises.readFile(path.join(__dirname, 'files', 'promiseComplete.txt'), 'utf8');
-        console.log(newData);
-    } catch(err) {
-        console.error(err)
-    }
-}
+class MyEmitter extends EventEmitter {};
 
-fileOps();
+// initialize object
+const myEmitter = new MyEmitter();
 
-console.log("Hello World")
+// ad  listener for the log event
+myEmitter.on('log', (msg) =>  logEvents(msg));
+
+setTimeout(() => {
+    myEmitter.emit('log', 'Log event emmited');
+}, 3000);

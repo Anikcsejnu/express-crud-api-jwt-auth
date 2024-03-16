@@ -17,3 +17,5 @@ const fileOps = async() => {
 }
 
 fileOps();
+
+console.log("Hello World")

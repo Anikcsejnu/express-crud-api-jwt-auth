@@ -2,15 +2,15 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const cors = require('cors');
-const { logger } = require('./middleware/logEvent')
+const { logger } = require('./middleware/logEvents')
 const errorHandler = require('./middleware/errorHandler')
 
 const PORT = process.env.PORT || 3500;
 
-// custom middleware logger
+// custom middleware-logger
 app.use(logger);
 
-// Cross origin resource sharing
+// Cross origin resource sharing - third party middleware
 const whitelist = ['https://localhost:3500', 'https://www.google.com', 'http://127.0.0.1:5500']
 const corsOptions = {
     origin: (origin, callback) => {
@@ -22,12 +22,15 @@ const corsOptions = {
     },
     optionsSuccessStatus: 200
 }
+
 app.use(cors(corsOptions));
 
+// Built-in middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '/public')));
 
+// route-handler
 app.get('^/$|index(.html)?', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
@@ -39,8 +42,6 @@ app.get('/new-page(.html)?', (req, res) => {
 app.get('/old-page(.html)?', (req, res) => {
     res.redirect(301, '/new-page.html');
 });
-
-// Rounte handlers
 
 app.get('/hello(.html)?', (req, res, next) => {
     console.log('attempted to load hello.html');
@@ -60,8 +61,8 @@ app.all('/*', (req, res) => {
     }
 });
 
+// custom middleware to handle and log error
 app.use(errorHandler);
-
 
 app.listen(PORT, () => 
 console.log(`Server is running on port ${PORT}`));

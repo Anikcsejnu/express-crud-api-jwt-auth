@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config;
 
 const verifyJWT = (req, res, next) => {
-    console.log('here');
     const authheader = req.headers['authorization'];
     if (!authheader) return res.sendStatus(401);
     console.log(authheader); // Bearer token

@@ -20,7 +20,7 @@ const handleLogout = async (req, res) => {
     const foundUser = usersDB.users.find(person => person.refressToken === refreshToken);
 
     if (!foundUser) {
-        res.clearCookie('jwt', { httpOnly: true });
+        res.clearCookie('jwt', {httpOnly: true, sameSite: 'None', secure: true});
         return res.sendStatus(204);
     }
 

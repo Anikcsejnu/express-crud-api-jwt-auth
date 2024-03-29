@@ -15,7 +15,7 @@ This project is a CRUD (Create, Read, Update, Delete) API built using Express.js
 Clone the project
 
 ```bash
-  [git clone https://github.com/Anikcsejnu/mern-backend.git](https://github.com/Anikcsejnu/express-crud-api-jwt-auth.git)
+  git clone https://github.com/Anikcsejnu/mern-backend.git
 ```
 
 Go to the project directory
